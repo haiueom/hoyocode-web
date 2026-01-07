@@ -1,107 +1,91 @@
 <script setup lang="ts">
 import { RouterLink, RouterView } from 'vue-router'
-import HelloWorld from './components/HelloWorld.vue'
-import { ref } from 'vue'
-
-const name = ref('Unknown')
-
-const getName = async () => {
-  const res = await fetch('/api/')
-  const data = await res.json()
-  name.value = data.name
-}
+import { Github } from 'lucide-vue-next'
 </script>
 
 <template>
-  <header>
-    <img alt="Vue logo" class="logo" src="@/assets/logo.svg" width="125" height="125" />
+	<div
+		class="min-h-screen bg-hoyo-bg text-gray-100 flex flex-col font-sans selection:bg-blue-500/30 selection:text-blue-200"
+	>
+		<nav
+			class="sticky top-0 z-50 bg-hoyo-bg/80 backdrop-blur-md border-b border-white/5 supports-backdrop-filter:bg-hoyo-bg/60"
+		>
+			<div
+				class="max-w-5xl mx-auto px-4 h-16 flex items-center justify-between"
+			>
+				<RouterLink to="/" class="flex items-center gap-3 group">
+					<div
+						class="w-8 h-8 bg-linear-to-br from-blue-500 to-purple-600 rounded-lg flex items-center justify-center font-bold text-white shadow-lg shadow-blue-500/20 group-hover:scale-110 transition-transform duration-300"
+					>
+						H
+					</div>
+					<span
+						class="font-bold text-lg tracking-tight bg-clip-text text-transparent bg-linear-to-r from-blue-400 to-purple-500"
+					>
+						Hoyo Code
+					</span>
+				</RouterLink>
 
-    <div class="wrapper">
-      <HelloWorld msg="You did it!" />
-      <button class="green" @click="getName" aria-label="get name">
-        Name from API is: {{ name }}
-      </button>
-      <p>Edit <code>server/index.ts</code> to change what the API gets</p>
-      <nav>
-        <RouterLink to="/">Home</RouterLink>
-        <RouterLink to="/about">About</RouterLink>
-      </nav>
-    </div>
-  </header>
+				<div class="flex items-center gap-6 text-sm font-medium">
+					<RouterLink
+						to="/"
+						active-class="text-blue-400"
+						class="text-gray-400 hover:text-white transition-colors"
+					>
+						Home
+					</RouterLink>
+					<RouterLink
+						to="/about"
+						active-class="text-blue-400"
+						class="text-gray-400 hover:text-white transition-colors"
+					>
+						About
+					</RouterLink>
 
-  <RouterView />
+					<div class="hidden md:block w-px h-4 bg-white/10"></div>
+
+					<a
+						href="https://github.com/haiueom/hoyocode-web"
+						target="_blank"
+						class="text-gray-400 hover:text-white transition-colors"
+						title="Source Code"
+					>
+						<Github class="w-5 h-5" />
+					</a>
+				</div>
+			</div>
+		</nav>
+
+		<main class="flex-1 w-full max-w-5xl mx-auto p-4 md:p-8">
+			<RouterView v-slot="{ Component }">
+				<transition name="fade" mode="out-in">
+					<component :is="Component" />
+				</transition>
+			</RouterView>
+		</main>
+
+		<footer class="border-t border-white/5 py-8 text-center">
+			<p class="text-sm text-gray-500">
+				&copy; 2026 Hoyo Code.
+				<span class="block md:inline mt-1 md:mt-0"
+					>Not affiliated with HoYoverse. Data provided by Fandom
+					Wiki.</span
+				>
+			</p>
+		</footer>
+	</div>
 </template>
 
-<style scoped>
-header {
-  line-height: 1.5;
-  max-height: 100vh;
+<style>
+/* Animasi Transisi Halaman */
+.fade-enter-active,
+.fade-leave-active {
+	transition: opacity 0.2s ease, transform 0.2s ease;
 }
 
-.logo {
-  display: block;
-  margin: 0 auto 2rem;
-}
-
-nav {
-  width: 100%;
-  font-size: 12px;
-  text-align: center;
-  margin-top: 2rem;
-}
-
-nav a.router-link-exact-active {
-  color: var(--color-text);
-}
-
-nav a.router-link-exact-active:hover {
-  background-color: transparent;
-}
-
-nav a {
-  display: inline-block;
-  padding: 0 1rem;
-  border-left: 1px solid var(--color-border);
-}
-
-nav a:first-of-type {
-  border: 0;
-}
-
-button {
-  background-color: hsla(160, 100%, 37%, 1);
-  color: var(--color-background);
-  border: 0;
-  padding: 0.5rem 1rem;
-  border-radius: 0.25rem;
-  cursor: pointer;
-  margin: 1rem 0 0.5rem 0;
-}
-
-@media (min-width: 1024px) {
-  header {
-    display: flex;
-    place-items: center;
-    padding-right: calc(var(--section-gap) / 2);
-  }
-
-  .logo {
-    margin: 0 2rem 0 0;
-  }
-
-  header .wrapper {
-    display: flex;
-    place-items: flex-start;
-    flex-wrap: wrap;
-  }
-
-  nav {
-    text-align: left;
-    margin-left: -1rem;
-    font-size: 1rem;
-
-    padding: 1rem 0;
-    margin-top: 1rem;
-  }
+.fade-enter-from,
+.fade-leave-to {
+	opacity: 0;
+	transform: translateY(5px);
 }
 </style>
